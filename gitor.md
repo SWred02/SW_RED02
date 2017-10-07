@@ -21,6 +21,7 @@ Git은 어떻게 탄생했고, 사람들이 왜 이렇게 열광할까?
 - 누가, 언제, 어디서 오류를 냈는지 확인할 수 있다.
 - 파일을 잃어버리거나, 잘못 고쳤을때도 쉽게 복구할 수 있다.
 
+다음은 버전 관리 시스템이 어떻게 발전해왔는지에 대한 내용이다. 크게 로컬 버전 관리시스템, 분산 버전 관리 시스템에 대해 설명한다.
 
 #### 로컬 버전 관리 시스템
 
@@ -28,8 +29,7 @@ Git은 어떻게 탄생했고, 사람들이 왜 이렇게 열광할까?
 
 
 영희는 자소서(자기소개서)를 고쳐 쓰고 있었다. 영희는 어디를 어떻게 수정했는지 기록하고 싶었다. 그래서 영희는 수정본을 저장할 때 마다 파일이름을 달리해 알아보기 쉽도록 했다.
->
->
+
 >-자소서1.docx
 -자소서2.docx
 -자소서아마도4.docx
@@ -62,21 +62,21 @@ VCS도구중 많이쓰이는 RCS라는 것이 있다. 오늘날(1982~)까지도 
 
 CVCS 환경에서, 프로젝트의 개발자 모두 누가 무엇을 하는지 알수있고, 관리자는 누가 무엇을 할지 꼼꼼하게 관리할 수 있다. 로컬 VCS에 비해 분명한 장점이 있지만, 완벽한 것은 아니다.
 
-<사진>
+<사진1:중앙집중식 버전관리시스템 from progit(1)>
 
 치명적인 결점중 대표적인 것은, **중앙 서버에 발생하는 문제이다.** 중앙 서버를 중심으로 돌아가는 시스템인 만큼 중앙 서버가 다운되면 아무것도 할 수 없게된다. 또 중앙 데이터베이스가 있는 하드디스크에 문제가 생기면 프로젝트의 모든 버전들이 날아간다. 로컬 VCS역시 이러한 문제점을 가지고 있다.
 
-CVS, Subversion, Perforce 등이 CVCS에 해당하는데, 오픈소스계의 아이돌 리누스 토발즈가 Subversion을 사용하다 화딱지가 나 개발한 것이 다음으로 설명할 분산 버전 관리 시스템중 하나인 Git 이다.
+CVS, Subversion, Perforce 등이 CVCS에 해당하는데, 오픈소스계의 아이돌 리누스 토발즈가 개발한 것이 다음으로 설명할 분산 버전 관리 시스템중 하나인 Git 이다.
 
 
 #### 분산 버전 관리 시스템
 `: DVCS. (Distributed Version Control System. or Distributed Revision control)`
 
-<사진>
+<사진2:분산 버전관리시스템 from progit(1)>
 
 DVCS환경에서 클라이언트(공동 개발자)는 단순히 파일의 마지막 스냅샷을 Checkout(받아와서 작업하는 것.)하지 않는다. 그냥 **저장소를 그대로 복제해온다.** CVCS는 중앙 데이터베이스를 잃으면 끝이지만, DVCS환경에서는 중앙 데이터베이스를 잃으면 클라이언트가 복제한 저장소를 바탕으로 서버를 복원할 수 있다. **진정한 백업인 것이다.**
 
-Git(), Mecurial(2005), Bazzar(), Darcs() 등이 이 시스템에 해당하며 우리가 알아볼 것은 바로 **Git** 이다.
+Darcs(2004), Git(2005), Mecurial(2005), Bazzar(2007) 등이 이 시스템에 해당하며 우리가 알아볼 것은 바로 **Git** 이다.
 
 
 ------
@@ -89,40 +89,65 @@ Git의 탄생은 리눅스 커널(Linux Kernel)개발 현장에서부터 시작�
 과거 이 프로젝트는 상용 분산 버전관리 프로그램인 비트키퍼의 커뮤니티(Community)버전을 무료로 공급받아 진행되고 있었다. 그러나 불법적인 Reverse Engineering이 세 차례 이어지면서 비트키퍼측은 커뮤니티 버전의 배포를 중단하고, 이로인해 리누스가 독자적인 프로그램을 개발하여 탄생한 것이 바로 **Git**이다.
 
 ###### + BitKeeper
-당시 사유 소프트웨어(Proprietary Software,독점 소프트웨어)였으나 2016년 5월을 기준으로 Apache License 아래의 오픈소스 프로그램이 되었다.
+본래 사유 소프트웨어(Proprietary Software,독점 소프트웨어)로, 분산 버전관리시스템을 제공했다. 현재는 2016년 5월을 기준으로 Apache License 아래의 오픈소스 프로그램이 되었다.
 
-###### + Reverse Engineering
-리버스 엔지니어링(영어: reverse engineering, RE) 또는 역공학(逆工學)은 장치 또는 시스템의 기술적인 원리를 그 구조분석을 통해 발견하는 과정. 종종 대상(기계 장치, 전자 부품, 소프트웨어 프로그램 등)을 조각내서 분석하는 것을 포함한다. 그리고 유지 보수를 위해, 또는 같은 기능을 하는 새 장치를 원본의 일부를 이용하지 않고 만들기 위해 대상의 세부적인 작동을 분석하는 것을 포함한다.
+###### + 리버스 엔지니어링 (Reverse Engineering)
+리버스 엔지니어링(영어: reverse engineering, RE) 또는 역공학(逆工學)은 장치 또는 시스템의 기술적인 원리를 그 구조분석을 통해 발견하는 과정. 종종 대상(기계 장치, 전자 부품, 소프트웨어 프로그램 등)을 조각내서 분석하는 것을 포함한다.
 
-###### + 상용 프로그램
-상용 소프트웨어(Commercial Software)에서 독점 소프트웨어(Proprietary Software) 와 무료 및 오픈소스 소프트웨어(Free and OpenSource Software)
+###### + 상용 소프트웨어(Commercial Software)
+상용 소프트웨어(Commercial Software)는 사유 소프트웨어(Proprietary Software) 와 무료 및 오픈소스 소프트웨어(Free and OpenSource Software)로 구분할 수 있다.
 
 ## Git의 특징
-깃은 데이터를 다루는데에 있어 기존의 VCS와는 다른 방식을 가진다. 기존의 VCS는 파일의 변경사항을 시간순으로 관리면서 파일들의 집합을 관리한다.
-<그림1>
+Git은 데이터를 다루는데에 있어 기존의 VCS와는 다른 방식을 가진다. 기존의 VCS는 파일의 변경사항을 시간순으로 관리면서 파일들의 집합을 관리한다.
 
-1. 네트워크에 대해 상대적으로 의존도가 낮음.
+<사진3:깃의 작동방식에 대한 그래프.from progit(0)>
+
+1. 네트워크에 대해 상대적으로 의존도가 낮음.d
 2. 스냅샷으로 저장하기 때문에
 
-##### 스냅샷
+###### + 스냅샷
 
-##### 체크섬(Checksum)
-##### SHA1
-##### 해쉬
+###### + 체크섬(Checksum)
+###### + SHA1
+###### + 해쉬
+특징에 관한 내용은 원리에 대해 먼저 작성한 뒤 시작한다.
 
-## Git의 원릐
+## Git의 원리
+이하의 내용의 출처는 다음과 같습니다.
+생활 코딩 Git의 원리 http://openturorial.org/course/2708
 
+###### + Gistory
+Git을 이용할 때 내부적으로 어떤 변화가 있는 지 한눈에 볼 수 있는 웹프로그램.
+위 링크에서 이용할 수 있다.
 
-#### 정리중
-http://openturorial.org/course/2708
-을 참고하여 강의노트로 작성한 것임.
+#### 1. Git add
+<pre><code>
+$git add (파일명)
+</code></pre>
+add 명령어를 사용하면, Git이 해당파일을 tracking한다. 즉 Git으로 관리하는 파일이라고 선언하는 것이다. 이때 , **index**파일과 **objects**폴더에 변경사항이 생긴다.
 
+<사진4: 어떻게 저장되는지 from
+http://programmingfbf7290.tistory.com/entry/Git-%EC%9B%90%EB%A6%AC1-git-add
+http://programmingfbf7290.tistory.com/entry/Git-%EC%9B%90%EB%A6%AC2-commit  (1)>
 
-->gistory이용
-깃을 이용했을때 내부적으로 어떤 일이 벌어지는지 알기위해 만들어진 프로그램.
-GUI로 한눈에 확인가능!
+##### objects/
+이 디렉토리안에는 add한 파일에 대한 오브젝트 파일(객체)가 생성된다.
+그림과 같이 파일명이 '781922613b5025042ff6bd878ac1994e85' 로, 굉장히 길고 복잡한 16진수로 되어있다. 이는 SHA-1을 통해 만들어진 체크섬이다. 40자길이의 16진수로 만들어지는데, 앞의 두자리는 오브젝트 디렉토리의 새로운 폴더명이되며, 마지막 38자리는 파일명이 된다.
 
-### 1. 깃 애드를 했을때 어떤 변화가 있을까?
+즉, **objects/78** 에 위치한 **1922613b5025042ff6bd878ac1994e85 이라는 object file**인 것이다.
+
+파일에는 add한 파일의 내용이 담겨있다.
+###### + 더보기
+
+<pre><code>
+$git add t1.txt
+</code></pre>
+
+##### index
+인덱스 파일에는 add로 추가한 파일의 해쉬값(일종의 주소값)과 해당 파일명이 저장된다.
+
+위의 같은 경우는 objects/78 에 위치한 981922613b5025042ff6bd878ac1994e85 라는 객체가 생성된 것이다.
+
 > git init을 하면
 깃이라는 폴더가 생긴다
 파일을 추가하면 깃은 아무런 관여를 하지않는다. 그래서  이때 add 를 통해 깃으로 관리하겠다고 선언해야한다. git add t1.txt 라고 저장하면,
@@ -230,6 +255,44 @@ repository를 사용자의 컴퓨터로 복사하는 것이다.
 
 ## Git 시작하기
 
+Git을 시작하기 위해서는 .git 이라는 이름의 디렉토리를 생성해야한다.
+다음과 같은 명령어를 터미널에 입력하면 .git 이라는 디렉토리가 생성된다.
+<pre><code>
+$git init
+</code></pre>
+Git은 작업 디렉토리안의 모든 파일을 관리(Tracking)하지않는다. Git이 파일을 관리하게 하기위해서는 add명령어를 사용해야한다.
+<pre><code>
+$git add (파일명)
+</code></pre>
+
+
+master local repository
+
+1. repository 만든다.
+2. local repository를 생성한다.
+
+$ git init
+$ git remote add origin master
+
+==============
+collaborator local repository
+
+1.master repository fork
+2.local repository를 생성한다.
+
+$git clone "https://github.com/(본인계정이름인지 확인.)/test.git"
+
+3. modify
+4. modify 한 파일을 본인의 repository로 push 한다.
+
+$git add .
+//해당 폴더안의 모든 파일을 tracking 한다. (git으로 관리하겠다고 선언하는 것.)
+$git commit -m "(구체적으로 어떤 것을 수정했는지 작성한다.)"
+//commit 이란 변경사항을 저장하겠다는 의미이다. (버전 관리. 스냅샷으로 저장하는 것을 의미한다.)
+$git push origin master
+//origin = repository의 이름. master = branch의 이름. (ex.'new라는 브랜치에 저장하고 싶을떈 .. origin new')
+
+5.Github홈페이지에서 master repository로 pull request.
 ------
 # 마치며
 ------
